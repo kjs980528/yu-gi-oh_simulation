@@ -86,7 +86,7 @@
 /* ── SUPER RARE: 무지개 세로선 (sunpillar) ─────────── */
 .rarity-super .holo-shine {
   background-image:
-    url('/img/grain.webp'),
+    url('../../public/img/grain.webp'),
     repeating-linear-gradient(0deg,
       hsl(2,   100%, 73%) calc(5% * 1),
       hsl(53,  100%, 69%) calc(5% * 2),
@@ -124,7 +124,7 @@
 /* ── ULTRA RARE: Retro Rainbow ────────────────────── */
 .rarity-ultra .holo-shine {
   background-image:
-    url('/img/grain.webp'),
+    url('../../public/img/grain.webp'),
     repeating-linear-gradient(
       calc(45deg + (var(--pointer-from-left) * 20deg)),
       #f80e35 0%, #ff6b00 8%, #eedf10 16%, #21e985 24%,
@@ -151,9 +151,9 @@
 .rarity-secret .holo-shine {
   background-image:
     /* 글리터 파티클 */
-    url('/img/glitter.png'),
+    url('../../public/img/glitter.png'),
     /* grain 텍스처 */
-    url('/img/grain.webp'),
+    url('../../public/img/grain.webp'),
     /* Sunpillar: 수직 무지개 컬럼 */
     repeating-linear-gradient(0deg,
       hsl(2,   100%, 73%) calc(5% * 1),
@@ -317,7 +317,7 @@
 /* ── RETRO: 빈티지 무지개 사선 ───────────────────── */
 .rarity-retro .holo-shine {
   background-image:
-    url('/img/grain.webp'),
+    url('../../public/img/grain.webp'),
     repeating-linear-gradient(
       calc(45deg + (var(--pointer-from-left) * 20deg)),
       #f80e35 0%, #ff6b00 8%, #eedf10 16%, #21e985 24%,

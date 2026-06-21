@@ -286,11 +286,11 @@ export function PackOpener({ set, onBack }) {
                   className={`card-flip-inner${cardFlipped ? ' flipped' : ''}`}
                 >
                   <div className="card-face card-face-back">
-                    <img src="/cardback.jpg" alt="카드 뒷면" draggable={false} />
+                    <img src={`${import.meta.env.BASE_URL}cardback.jpg`} alt="카드 뒷면" draggable={false} />
                   </div>
                   <div className="card-face card-face-front">
                     <HoloCard
-                      imageUrl={pack[currentIdx]?.card_images?.[0]?.image_url_small || '/cardback.jpg'}
+                      imageUrl={pack[currentIdx]?.card_images?.[0]?.image_url_small || `${import.meta.env.BASE_URL}cardback.jpg`}
                       rarityTier={pack[currentIdx]?.rarityTier || 'common'}
                       alt={pack[currentIdx]?.name || ''}
                     />
