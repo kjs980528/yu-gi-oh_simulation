@@ -1,0 +1,449 @@
+.opener {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  min-height: 70vh;
+}
+
+.opener-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
+}
+
+.set-info {
+  flex: 1;
+}
+
+.set-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 4px;
+}
+
+.set-meta {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.open-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* --- Status --- */
+.status-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: #64748b;
+  margin-top: 40px;
+}
+
+.status-box.error {
+  color: #f87171;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #818cf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Pre-open --- */
+.pre-open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+/* --- Pack tear interaction --- */
+.pack-tear-wrap {
+  position: relative;
+  width: 220px;
+  cursor: default;
+  user-select: none;
+  touch-action: none;
+  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.7));
+}
+
+/* 상단 15% 영역에만 ew-resize 커서 표시 */
+.pack-tear-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
+  cursor: ew-resize;
+  z-index: 10;
+  border-radius: 12px 12px 0 0;
+}
+
+.pack-tear-wrap.dragging,
+.pack-tear-wrap.dragging::before {
+  cursor: grabbing;
+}
+
+.pack-tear-wrap.disabled,
+.pack-tear-wrap.disabled::before {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pack-img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+
+/* 하단 90% — 절개선 아래 */
+.pack-img-bottom {
+  clip-path: polygon(0 10%, 100% 10%, 100% 100%, 0 100%);
+}
+
+/* 상단 10% 띠 — clip-path는 JS에서 동적으로 제어 */
+.pack-img-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  will-change: clip-path;
+}
+
+.pack-img-top.flying-right {
+  transition: transform 0.45s ease-in, opacity 0.3s 0.05s ease;
+  transform: translateX(320px) rotate(6deg) !important;
+  opacity: 0;
+}
+
+.pack-img-top.flying-left {
+  transition: transform 0.45s ease-in, opacity 0.3s 0.05s ease;
+  transform: translateX(-320px) rotate(-6deg) !important;
+  opacity: 0;
+}
+
+/* 절개선 강조 라인 */
+.pack-tear-wrap::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.drag-hint {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+  animation: hint-slide 2s ease-in-out infinite;
+  letter-spacing: 0.3px;
+}
+
+@keyframes hint-slide {
+  0%, 100% { transform: translateX(calc(-50% - 4px)); opacity: 0.8; }
+  50% { transform: translateX(calc(-50% + 4px)); opacity: 1; }
+}
+
+.hint {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+}
+
+/* --- Buttons --- */
+.btn-open {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  border: none;
+  color: #fff;
+  padding: 14px 40px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.btn-open:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.6);
+}
+
+.btn-open:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-open:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+
+/* --- 카드 한 장씩 보기 --- */
+.single-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  padding-top: 8px;
+  overflow: hidden;
+}
+
+.card-counter {
+  font-size: 15px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+/* 카드 외부 래퍼 - 입장/퇴장 위치 애니메이션 담당 */
+.card-flip-outer {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 기울임 트래킹 컨테이너 - perspective 제공 */
+.card-tilt-wrap {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --card-opacity: 0;
+  --pointer-from-center: 0;
+  --pointer-from-left: 0.5;
+  --pointer-from-top: 0.5;
+  --background-x: 50%;
+  --background-y: 50%;
+  width: 240px;
+  height: 350px;
+  perspective: 700px;
+}
+
+/* 실제 3D 기울임 - flip 바깥에서 적용 */
+.card-tilt {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  transition: transform 0.12s ease-out;
+}
+
+.card-flip-outer.exiting {
+  animation: card-exit 0.32s ease-in forwards;
+}
+
+.card-flip-outer.entering {
+  animation: card-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes card-exit {
+  0%   { transform: translateX(0)    rotate(0deg);  opacity: 1; }
+  100% { transform: translateX(180%) rotate(14deg); opacity: 0; }
+}
+
+@keyframes card-enter {
+  0%   { transform: translateY(110%); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* 카드 내부 - 3D 뒤집기 담당 */
+.card-flip-inner {
+  position: relative;
+  width: 240px;
+  height: 350px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+}
+
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+}
+
+.card-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.card-face-front {
+  transform: rotateY(180deg);
+}
+
+.swipe-hint {
+  font-size: 13px;
+  color: #334155;
+  margin: 0;
+  transition: opacity 0.2s;
+}
+
+/* --- 전체 카드 요약 --- */
+.cards-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 16px 0;
+  animation: fade-up 0.4s ease;
+}
+
+.card-reveal-btn {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card-reveal-btn:hover {
+  transform: translateY(-4px);
+}
+
+/* --- Post-open --- */
+.post-open {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fade-up 0.4s ease;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 카드 확대 모달 --- */
+.card-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  animation: backdrop-in 0.25s ease;
+  cursor: pointer;
+}
+
+.card-modal-holo-wrap {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --card-opacity: 0;
+  --pointer-from-center: 0;
+  --pointer-from-left: 0.5;
+  --pointer-from-top: 0.5;
+  --background-x: 50%;
+  --background-y: 50%;
+  width: min(300px, 82vw);
+  aspect-ratio: 421 / 614;
+  perspective: 800px;
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.9);
+  animation: modal-card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  cursor: default;
+}
+
+.card-modal-tilt {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-card-in {
+  0%   { opacity: 0; transform: scale(0.65) translateY(40px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}

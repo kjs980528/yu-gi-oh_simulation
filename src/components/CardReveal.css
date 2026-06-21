@@ -1,0 +1,162 @@
+.card-wrap {
+  position: relative;
+  width: 200px;
+  height: 274px;
+  perspective: 700px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-tilt {
+  width: 160px;
+  height: 234px;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
+  transition: transform 0.12s ease-out;
+  will-change: transform;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--delay);
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* --- Back face --- */
+.back {
+  background: linear-gradient(145deg, #1a0a3e, #0d1a4e);
+  border: 2px solid #3d2a8a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.back-pattern {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(100, 80, 180, 0.4);
+  border-radius: 6px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    rgba(80, 60, 160, 0.15) 8px,
+    rgba(80, 60, 160, 0.15) 16px
+  );
+}
+
+.back-logo {
+  font-size: 48px;
+  color: rgba(120, 100, 200, 0.6);
+  font-weight: 900;
+  z-index: 1;
+  text-shadow: 0 0 20px rgba(120, 100, 200, 0.4);
+}
+
+/* --- Front face --- */
+.front {
+  transform: rotateY(180deg);
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.card-img {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  min-height: 0;
+}
+
+.card-img.loaded {
+  opacity: 1;
+}
+
+.img-skeleton {
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a3e 25%, #252550 50%, #1a1a3e 75%);
+  background-size: 200% 200%;
+  animation: shimmer 1.5s infinite;
+}
+
+.card-footer {
+  padding: 5px 8px;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-name {
+  font-size: 10px;
+  color: #e2e8f0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rarity-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* --- Glow & effects --- */
+.glow-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 13px;
+  box-shadow: 0 0 16px var(--color), 0 0 40px var(--color);
+  opacity: 0;
+  animation: glow-in 0.6s ease forwards;
+  animation-delay: calc(var(--delay) + 700ms);
+  pointer-events: none;
+}
+
+.rarity-ultra .glow-ring {
+  box-shadow: 0 0 20px #fbbf24, 0 0 60px #fbbf24, 0 0 100px rgba(251, 191, 36, 0.3);
+}
+
+.rarity-secret .glow-ring {
+  box-shadow: 0 0 20px #e879f9, 0 0 50px #e879f9, 0 0 80px #e879f9;
+}
+
+/* --- Animations --- */
+@keyframes glow-in {
+  to { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
