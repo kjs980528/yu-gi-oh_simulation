@@ -258,8 +258,7 @@
   align-items: center;
   gap: 24px;
   flex: 1;
-  padding-top: 8px;
-  overflow: hidden;
+  padding: 8px 24px 24px;
 }
 
 .card-counter {
@@ -287,8 +286,8 @@
   --pointer-from-top: 0.5;
   --background-x: 50%;
   --background-y: 50%;
-  width: 240px;
-  height: 350px;
+  width: 280px;
+  height: 408px;
   perspective: 700px;
 }
 
@@ -322,8 +321,8 @@
 /* 카드 내부 - 3D 뒤집기 담당 */
 .card-flip-inner {
   position: relative;
-  width: 240px;
-  height: 350px;
+  width: 280px;
+  height: 408px;
   transform-style: preserve-3d;
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 12px;

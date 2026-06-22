@@ -8,22 +8,31 @@ export function PackSelector({ onSelect }) {
   const { sets, loading, error } = useCardSets()
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
+  const [sortAsc, setSortAsc] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim()
-    if (!q) return sets
-    return sets.filter(
-      s =>
-        s.set_name.toLowerCase().includes(q) ||
-        s.set_code.toLowerCase().includes(q),
-    )
-  }, [sets, query])
+    const base = q
+      ? sets.filter(
+          s =>
+            s.set_name.toLowerCase().includes(q) ||
+            s.set_code.toLowerCase().includes(q),
+        )
+      : [...sets]
+    if (sortAsc) base.reverse()
+    return base
+  }, [sets, query, sortAsc])
 
   const visible = filtered.slice(0, page * PAGE_SIZE)
   const hasMore = visible.length < filtered.length
 
   function handleSearch(value) {
     setQuery(value)
+    setPage(1)
+  }
+
+  function handleSort() {
+    setSortAsc(v => !v)
     setPage(1)
   }
 
@@ -49,13 +58,18 @@ export function PackSelector({ onSelect }) {
       <div className="selector-header">
         <h2 className="selector-title">카드팩 선택</h2>
         <p className="selector-subtitle">{sets.length}개 팩 · 열고 싶은 팩을 선택하세요</p>
-        <input
-          className="search-input"
-          type="text"
-          placeholder="팩 이름 또는 코드 검색…"
-          value={query}
-          onChange={e => handleSearch(e.target.value)}
-        />
+        <div className="search-row">
+          <input
+            className="search-input"
+            type="text"
+            placeholder="팩 이름 또는 코드 검색…"
+            value={query}
+            onChange={e => handleSearch(e.target.value)}
+          />
+          <button className="sort-btn" onClick={handleSort} title="발매일 정렬">
+            {sortAsc ? '발매일 ↑ 오래된순' : '발매일 ↓ 최신순'}
+          </button>
+        </div>
       </div>
 
       {filtered.length === 0 && (

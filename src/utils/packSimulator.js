@@ -21,19 +21,16 @@ export function simulatePack(cards, packSize = 5) {
 
   const result = []
 
-  const holos = [...groups.secret, ...groups.ultra, ...groups.super]
-  const holo = pickRandom(holos.length ? holos : processed)
-  if (holo) result.push(holo)
-
-  const rareOrHigher = [...holos, ...groups.rare]
-  const rareCard = pickRandom(rareOrHigher.length ? rareOrHigher : processed)
-  if (rareCard) result.push(rareCard)
-
-  const fillPool = groups.common.length ? groups.common : processed
-  while (result.length < packSize) {
-    const card = pickRandom(fillPool)
-    if (card) result.push(card)
+  const commonPool = groups.common.length ? groups.common : processed
+  while (result.length < 3) {
+    result.push(pickRandom(commonPool))
   }
+
+  const rarePool = groups.rare.length ? groups.rare : processed
+  result.push(pickRandom(rarePool))
+
+  const holoPool = [...groups.secret, ...groups.ultra, ...groups.super]
+  result.push(pickRandom(holoPool.length ? holoPool : processed))
 
   return result
 }
