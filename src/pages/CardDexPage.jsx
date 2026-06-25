@@ -73,6 +73,82 @@ const LINK_MARKER_ARROW = {
   'Bottom-Left': '↙', 'Bottom': '↓', 'Bottom-Right': '↘',
 }
 
+const CARD_TYPE_KR = {
+  'Effect Monster': '효과 몬스터',
+  'Normal Monster': '일반 몬스터',
+  'Ritual Monster': '의식 몬스터',
+  'Ritual Effect Monster': '의식 효과 몬스터',
+  'Fusion Monster': '융합 몬스터',
+  'Synchro Monster': '싱크로 몬스터',
+  'Xyz Monster': '엑시즈 몬스터',
+  'Link Monster': '링크 몬스터',
+  'Pendulum Effect Monster': '펜듈럼 효과 몬스터',
+  'Normal Pendulum Monster': '펜듈럼 일반 몬스터',
+  'Fusion Pendulum Monster': '융합 펜듈럼 몬스터',
+  'Synchro Pendulum Monster': '싱크로 펜듈럼 몬스터',
+  'Xyz Pendulum Monster': '엑시즈 펜듈럼 몬스터',
+  'Flip Effect Monster': '플립 효과 몬스터',
+  'Flip Pendulum Effect Monster': '플립 펜듈럼 효과 몬스터',
+  'Spirit Monster': '스피릿 몬스터',
+  'Union Effect Monster': '유니온 효과 몬스터',
+  'Gemini Monster': '제미나이 몬스터',
+  'Spell Card': '마법 카드',
+  'Trap Card': '함정 카드',
+  'Token': '토큰',
+}
+
+function CardDetail({ card, onClose }) {
+  if (!card) return null
+  const isLink = card.type?.includes('Link')
+  const raceKr =
+    MONSTER_RACE_KR[card.race] ?? SPELL_RACE_KR[card.race] ?? TRAP_RACE_KR[card.race] ?? card.race
+
+  return (
+    <div className="dex-detail">
+      <button className="dex-detail-close" onClick={onClose}>✕</button>
+      <div className="dex-detail-img-wrap">
+        <img src={card.card_images[0]?.image_url} alt={card.name} />
+      </div>
+      <div className="dex-detail-body">
+        <h3 className="dex-detail-name">{card.name}</h3>
+        <ul className="dex-detail-stats">
+          <li><span>종류</span><span>{CARD_TYPE_KR[card.type] ?? card.type}</span></li>
+          {card.attribute && (
+            <li><span>속성</span><span>{ATTRIBUTE_KR[card.attribute] ?? card.attribute}</span></li>
+          )}
+          {card.race && (
+            <li><span>종족</span><span>{raceKr}</span></li>
+          )}
+          {card.level != null && !isLink && (
+            <li><span>레벨 / 랭크</span><span>{'★'.repeat(card.level)} ({card.level})</span></li>
+          )}
+          {isLink && card.linkval != null && (
+            <li><span>링크 레이팅</span><span>{card.linkval}</span></li>
+          )}
+          {card.atk != null && (
+            <li><span>공격력</span><span>{card.atk === -1 ? '?' : card.atk.toLocaleString()}</span></li>
+          )}
+          {!isLink && card.def != null && (
+            <li><span>수비력</span><span>{card.def === -1 ? '?' : card.def.toLocaleString()}</span></li>
+          )}
+          {card.scale != null && (
+            <li><span>펜듈럼 스케일</span><span>{card.scale}</span></li>
+          )}
+          {isLink && card.linkmarkers?.length > 0 && (
+            <li><span>링크 마커</span><span>{card.linkmarkers.map(m => LINK_MARKER_ARROW[m]).join(' ')}</span></li>
+          )}
+        </ul>
+        {card.desc && (
+          <div className="dex-detail-desc">
+            <span className="dex-detail-desc-label">카드 효과</span>
+            <p>{card.desc}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 const DEFAULT_FILTERS = {
   name: '',
   category: 'monster',
@@ -111,13 +187,14 @@ function buildUrl(filters, offset) {
 }
 
 export function CardDexPage() {
-  const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [cards, setCards]     = useState([])
-  const [total, setTotal]     = useState(0)
-  const [offset, setOffset]   = useState(0)
+  const [filters, setFilters]         = useState(DEFAULT_FILTERS)
+  const [cards, setCards]             = useState([])
+  const [total, setTotal]             = useState(0)
+  const [offset, setOffset]           = useState(0)
   const [loading, setLoading]         = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
-  const [error, setError]     = useState(null)
+  const [error, setError]             = useState(null)
+  const [selectedCard, setSelectedCard] = useState(null)
 
   const abortRef    = useRef(null)
   const debounceRef = useRef(null)
@@ -367,29 +444,39 @@ export function CardDexPage() {
       )}
 
       {!loading && cards.length > 0 && (
-        <>
-          <div className="dex-grid">
-            {cards.map(card => (
-              <div key={card.id} className="dex-card">
-                <img
-                  src={card.card_images[0]?.image_url_small}
-                  alt={card.name}
-                  loading="lazy"
-                />
-                <div className="dex-card-info">
-                  <span className="dex-card-name">{card.name}</span>
-                  <span className="dex-card-sub">{card.race} {card.attribute ? `· ${card.attribute}` : ''}</span>
+        <div className="dex-body">
+          <div className="dex-grid-wrapper">
+            <div className="dex-grid">
+              {cards.map(card => (
+                <div
+                  key={card.id}
+                  className={`dex-card${selectedCard?.id === card.id ? ' dex-card--selected' : ''}`}
+                  onClick={() => setSelectedCard(card)}
+                >
+                  <img
+                    src={card.card_images[0]?.image_url_small}
+                    alt={card.name}
+                    loading="lazy"
+                  />
+                  <div className="dex-card-info">
+                    <span className="dex-card-name">{card.name}</span>
+                    <span className="dex-card-sub">{card.race} {card.attribute ? `· ${card.attribute}` : ''}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {hasMore && (
+              <button className="dex-load-more" onClick={loadMore} disabled={loadingMore}>
+                {loadingMore ? '불러오는 중…' : `더 보기 (${(total - cards.length).toLocaleString()}장 남음)`}
+              </button>
+            )}
           </div>
 
-          {hasMore && (
-            <button className="dex-load-more" onClick={loadMore} disabled={loadingMore}>
-              {loadingMore ? '불러오는 중…' : `더 보기 (${(total - cards.length).toLocaleString()}장 남음)`}
-            </button>
+          {selectedCard && (
+            <CardDetail card={selectedCard} onClose={() => setSelectedCard(null)} />
           )}
-        </>
+        </div>
       )}
     </div>
   )

@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, NavLink, Link, Navigate } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
 import { PackPage } from './pages/PackPage'
 import { QuizPage } from './pages/QuizPage'
 import { CardDexPage } from './pages/CardDexPage'
 import { HoloDemoPage } from './pages/HoloDemoPage'
+import { MetaPage } from './pages/MetaPage'
 import './App.css'
 
 export function App() {
@@ -12,9 +13,9 @@ export function App() {
       <div className="app">
         <header className="app-header">
           <div className="header-inner">
-            <div className="logo">
+            <Link to="/" className="logo">
               <span className="logo-text">유희왕 시뮬레이터</span>
-            </div>
+            </Link>
             <nav className="app-nav">
               <NavLink to="/packs" className={({ isActive }) => `nav-tab${isActive ? ' active' : ''}`}>
                 팩 오픈
@@ -33,7 +34,7 @@ export function App() {
         </header>
         <main className="app-main">
           <Routes>
-            <Route path="/" element={<Navigate to="/packs" replace />} />
+            <Route path="/" element={<MetaPage />} />
             <Route path="/packs" element={<HomePage />} />
             <Route path="/packs/:setCode" element={<PackPage />} />
             <Route path="/quiz" element={<QuizPage />} />

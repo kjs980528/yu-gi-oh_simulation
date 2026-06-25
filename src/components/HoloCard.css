@@ -57,12 +57,12 @@
 .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsla(0, 0%, 100%, 0.8) 10%,
-    hsla(0, 0%, 100%, 0.65) 20%,
-    hsla(0, 0%, 0%, 0.5) 90%
+    hsla(0, 0%, 100%, 0.45) 10%,
+    hsla(0, 0%, 100%, 0.3) 20%,
+    hsla(0, 0%, 0%, 0.4) 90%
   );
   mix-blend-mode: overlay;
-  opacity: calc(var(--card-opacity) * 0.3);
+  opacity: calc(var(--card-opacity) * 0.18);
 }
 
 /* ── RARE: 청색 shimmer ────────────────────────────── */
@@ -82,7 +82,7 @@
 }
 
 .rarity-rare .holo-glare {
-  opacity: calc(var(--card-opacity) * 0.5);
+  opacity: calc(var(--card-opacity) * 0.3);
 }
 
 /* ── SUPER RARE: 무지개 세로선 (sunpillar) ─────────── */
@@ -118,7 +118,7 @@
 }
 
 .rarity-super .holo-glare {
-  opacity: calc(var(--card-opacity) * 0.6);
+  opacity: calc(var(--card-opacity) * 0.35);
   filter: brightness(0.9) contrast(1.75);
   mix-blend-mode: hard-light;
 }
@@ -144,7 +144,7 @@
 }
 
 .rarity-ultra .holo-glare {
-  opacity: calc(var(--card-opacity) * 0.65);
+  opacity: calc(var(--card-opacity) * 0.4);
   filter: brightness(0.85) contrast(1.5);
   mix-blend-mode: overlay;
 }
@@ -203,12 +203,12 @@
 .rarity-secret .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsla(0, 0%, 100%, 0.9) 5%,
-    hsla(187, 10%, 85%, 0.25) 40%,
+    hsla(0, 0%, 100%, 0.55) 5%,
+    hsla(187, 10%, 85%, 0.15) 40%,
     hsl(197, 6%, 25%) 120%
   );
   filter: brightness(0.9) contrast(1.75);
-  opacity: calc(var(--card-opacity) * 0.9);
+  opacity: calc(var(--card-opacity) * 0.55);
   mix-blend-mode: hard-light;
 }
 
@@ -238,12 +238,12 @@
 .rarity-gold .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsl(50, 100%, 95%) 5%,
-    hsla(45, 80%, 60%, 0.4) 40%,
-    hsla(0, 0%, 0%, 0.5) 110%
+    hsla(50, 100%, 95%, 0.6) 5%,
+    hsla(45, 80%, 60%, 0.25) 40%,
+    hsla(0, 0%, 0%, 0.4) 110%
   );
   filter: brightness(1.1) contrast(1.4);
-  opacity: calc(var(--card-opacity) * 0.75);
+  opacity: calc(var(--card-opacity) * 0.45);
   mix-blend-mode: overlay;
 }
 
@@ -272,12 +272,12 @@
 .rarity-cosmos .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsla(260, 100%, 90%, 0.9) 0%,
-    hsla(220,  80%, 60%, 0.3) 40%,
-    hsla(0, 0%, 0%, 0.6) 110%
+    hsla(260, 100%, 90%, 0.55) 0%,
+    hsla(220,  80%, 60%, 0.18) 40%,
+    hsla(0, 0%, 0%, 0.5) 110%
   );
   filter: brightness(1.2) contrast(1.5);
-  opacity: calc(var(--card-opacity) * 0.85);
+  opacity: calc(var(--card-opacity) * 0.5);
   mix-blend-mode: screen;
 }
 
@@ -299,20 +299,20 @@
   background-blend-mode: overlay;
   background-size: 400% 100%, 100% 300%;
   background-position: var(--background-x) center, center var(--background-y);
-  filter: brightness(1.4) contrast(2.2) saturate(0.15);
-  mix-blend-mode: color-dodge;
-  opacity: var(--card-opacity);
+  filter: brightness(0.85) contrast(1.4) saturate(0.1);
+  mix-blend-mode: overlay;
+  opacity: calc(var(--card-opacity) * 0.7);
 }
 
 .rarity-chrome .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsla(0, 0%, 100%, 0.9) 5%,
-    hsla(0, 0%, 60%, 0.3) 40%,
-    hsla(0, 0%, 0%, 0.5) 110%
+    hsla(0, 0%, 100%, 0.4) 5%,
+    hsla(0, 0%, 60%, 0.12) 40%,
+    hsla(0, 0%, 0%, 0.25) 110%
   );
-  filter: brightness(1.2) contrast(1.8) saturate(0);
-  opacity: calc(var(--card-opacity) * 0.8);
+  filter: brightness(1.0) contrast(1.3) saturate(0);
+  opacity: calc(var(--card-opacity) * 0.2);
   mix-blend-mode: overlay;
 }
 
@@ -337,7 +337,7 @@
 }
 
 .rarity-retro .holo-glare {
-  opacity: calc(var(--card-opacity) * 0.65);
+  opacity: calc(var(--card-opacity) * 0.4);
   filter: brightness(0.85) contrast(1.5);
   mix-blend-mode: overlay;
 }
@@ -370,10 +370,10 @@
 .rarity-pink .holo-glare {
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    hsl(320, 100%, 90%) 5%,
-    hsla(300, 60%, 60%, 0.3) 40%,
-    hsla(0, 0%, 0%, 0.5) 110%
+    hsla(320, 100%, 90%, 0.55) 5%,
+    hsla(300, 60%, 60%, 0.18) 40%,
+    hsla(0, 0%, 0%, 0.4) 110%
   );
-  opacity: calc(var(--card-opacity) * 0.75);
+  opacity: calc(var(--card-opacity) * 0.45);
   mix-blend-mode: overlay;
 }

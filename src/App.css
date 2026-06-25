@@ -30,6 +30,8 @@
   gap: 10px;
   padding: 14px 0;
   flex-shrink: 0;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .logo-icon {

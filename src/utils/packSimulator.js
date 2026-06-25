@@ -26,7 +26,9 @@ export function simulatePack(cards, packSize = 5) {
     result.push(pickRandom(commonPool))
   }
 
-  const rarePool = groups.rare.length ? groups.rare : processed
+  const rarePool = groups.rare.length ? groups.rare
+                 : groups.common.length ? groups.common
+                 : processed
   result.push(pickRandom(rarePool))
 
   const holoPool = [...groups.secret, ...groups.ultra, ...groups.super]
